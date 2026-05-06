@@ -350,12 +350,9 @@
 </div>
 
 <div class="filters">
-  <button class="filter-btn active" data-filter="all">Todas</button>
-  <button class="filter-btn" data-filter="pending">Pendientes</button>
+  <button class="filter-btn active" data-filter="pending">Pendientes</button>
+  <button class="filter-btn" data-filter="all">Todas</button>
   <button class="filter-btn" data-filter="done">Hechas</button>
-  <button class="filter-btn" data-filter="jp">JP</button>
-  <button class="filter-btn" data-filter="savi">Savi</button>
-  <button class="filter-btn" data-filter="amb">Ambos</button>
 </div>
 
 <div id="listContainer">
@@ -396,7 +393,7 @@ const col = collection(db, "tareas");
 
 // Estado
 let tasks = [];
-let currentFilter = "all";
+let currentFilter = "pending";
 let pendingText = "";
 
 // UI refs
