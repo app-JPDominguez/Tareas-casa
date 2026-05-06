@@ -203,7 +203,7 @@
   }
 
   .tag-jp   { background: #FFE8D6; color: #A0420A; }
-  .tag-eli  { background: #D6E8FF; color: #0A4280; }
+  .tag-savi { background: #D6E8FF; color: #0A4280; }
   .tag-amb  { background: #EDE0FF; color: #5A1A90; }
 
   .task-date {
@@ -305,7 +305,7 @@
   }
 
   .who-btn[data-who="jp"]   { border-color: #FFBF94; }
-  .who-btn[data-who="eli"]  { border-color: #94BEFF; }
+  .who-btn[data-who="savi"]  { border-color: #94BEFF; }
   .who-btn[data-who="amb"]  { border-color: #C094FF; }
 
   .who-btn:active { transform: scale(0.97); }
@@ -354,7 +354,7 @@
   <button class="filter-btn" data-filter="pending">Pendientes</button>
   <button class="filter-btn" data-filter="done">Hechas</button>
   <button class="filter-btn" data-filter="jp">JP</button>
-  <button class="filter-btn" data-filter="eli">Eli</button>
+  <button class="filter-btn" data-filter="savi">Savi</button>
   <button class="filter-btn" data-filter="amb">Ambos</button>
 </div>
 
@@ -369,7 +369,7 @@
     <div class="modal-task-preview" id="modalPreview"></div>
     <div class="who-btns">
       <button class="who-btn" data-who="jp">JP</button>
-      <button class="who-btn" data-who="eli">Eli</button>
+      <button class="who-btn" data-who="savi">Savi</button>
       <button class="who-btn" data-who="amb">Ambos</button>
     </div>
   </div>
@@ -480,7 +480,7 @@ function render() {
   if (currentFilter === "pending") filtered = tasks.filter(t => !t.done);
   else if (currentFilter === "done")    filtered = tasks.filter(t => t.done);
   else if (currentFilter === "jp")      filtered = tasks.filter(t => t.who === "jp");
-  else if (currentFilter === "eli")     filtered = tasks.filter(t => t.who === "eli");
+  else if (currentFilter === "savi")     filtered = tasks.filter(t => t.who === "savi");
   else if (currentFilter === "amb")     filtered = tasks.filter(t => t.who === "amb");
 
   if (filtered.length === 0) {
@@ -515,8 +515,8 @@ function render() {
 }
 
 function taskHTML(t) {
-  const whoLabel = { jp: "JP", eli: "Eli", amb: "Ambos" }[t.who] || "";
-  const whoClass = { jp: "tag-jp", eli: "tag-eli", amb: "tag-amb" }[t.who] || "";
+  const whoLabel = { jp: "JP", savi: "Savi", amb: "Ambos" }[t.who] || "";
+  const whoClass = { jp: "tag-jp", savi: "tag-savi", amb: "tag-amb" }[t.who] || "";
   const date = t.createdAt?.toDate
     ? t.createdAt.toDate().toLocaleDateString("es-AR", { day:"2-digit", month:"short" })
     : "";
