@@ -359,18 +359,6 @@
   <div class="loading">Cargando tareas...</div>
 </div>
 
-<!-- Modal quién -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <h3>¿Para quién es?</h3>
-    <div class="modal-task-preview" id="modalPreview"></div>
-    <div class="who-btns">
-      <button class="who-btn" data-who="jp">JP</button>
-      <button class="who-btn" data-who="savi">Savi</button>
-      <button class="who-btn" data-who="amb">Ambos</button>
-    </div>
-  </div>
-</div>
 
 <!-- Firebase SDK -->
 <script type="module">
@@ -394,14 +382,11 @@ const col = collection(db, "tareas");
 // Estado
 let tasks = [];
 let currentFilter = "pending";
-let pendingText = "";
 
 // UI refs
 const listContainer = document.getElementById("listContainer");
 const taskInput     = document.getElementById("taskInput");
 const addBtn        = document.getElementById("addBtn");
-const modalOverlay  = document.getElementById("modalOverlay");
-const modalPreview  = document.getElementById("modalPreview");
 const connDot       = document.getElementById("connDot");
 const connText      = document.getElementById("connText");
 
@@ -418,37 +403,20 @@ onSnapshot(q, (snap) => {
   console.error(err);
 });
 
-// Agregar tarea
-function triggerAdd() {
+// Agregar tarea directamente
+async function addTask() {
   const text = taskInput.value.trim();
   if (!text) return;
-  pendingText = text;
-  modalPreview.textContent = `"${text}"`;
-  modalOverlay.classList.add("show");
+  taskInput.value = "";
+  await addDoc(col, {
+    text,
+    done: false,
+    createdAt: serverTimestamp()
+  });
 }
 
-addBtn.addEventListener("click", triggerAdd);
-taskInput.addEventListener("keydown", e => { if (e.key === "Enter") triggerAdd(); });
-
-// Modal quién
-document.querySelectorAll(".who-btn").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const who = btn.dataset.who;
-    await addDoc(col, {
-      text: pendingText,
-      who,
-      done: false,
-      createdAt: serverTimestamp()
-    });
-    taskInput.value = "";
-    pendingText = "";
-    modalOverlay.classList.remove("show");
-  });
-});
-
-modalOverlay.addEventListener("click", e => {
-  if (e.target === modalOverlay) modalOverlay.classList.remove("show");
-});
+addBtn.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", e => { if (e.key === "Enter") addTask(); });
 
 // Toggle done
 async function toggleDone(id, current) {
